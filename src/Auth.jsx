@@ -2,6 +2,15 @@ import React, { useState } from 'react'
 import { UserRound, Mail, Lock, ArrowRight } from 'lucide-react'
 import { useApp } from './store.jsx'
 
+// Défini hors du composant : sinon React recrée le champ à chaque frappe,
+// le champ perd le focus et le clavier se referme après chaque lettre.
+const Row = ({ Icon, ...p }) => (
+  <div className="relative">
+    <Icon size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-ink-soft" aria-hidden="true" />
+    <input className="field !pl-11" required {...p} />
+  </div>
+)
+
 export default function Auth() {
   const { register, login } = useApp()
   const [mode, setMode] = useState('register')
@@ -19,13 +28,6 @@ export default function Auth() {
     } catch (x) { setErr(x.message || 'Erreur inattendue.') }
     setBusy(false)
   }
-
-  const Row = ({ Icon, ...p }) => (
-    <div className="relative">
-      <Icon size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-ink-soft" aria-hidden="true" />
-      <input className="field !pl-11" required {...p} />
-    </div>
-  )
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center px-5 py-10 bg-surface">
